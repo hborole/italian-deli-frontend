@@ -4,6 +4,7 @@ import catchErrors from '../services/catchErrors';
 
 const initialState = {
   products: [],
+  featuredProducts: [],
   product: null,
   isLoading: false,
   errors: [],
@@ -18,6 +19,12 @@ export const productSlice = createSlice({
     },
     clearProducts: (state) => {
       state.products = [];
+    },
+    setFeaturedProducts: (state, action) => {
+      state.featuredProducts = action.payload;
+    },
+    clearFeaturedProducts: (state) => {
+      state.featuredProducts = [];
     },
     setProduct: (state, action) => {
       state.product = action.payload;
@@ -41,12 +48,16 @@ export const productSlice = createSlice({
 export const {
   setProducts,
   clearProducts,
+  setFeaturedProducts,
+  clearFeaturedProducts,
   setProduct,
   clearProduct,
   setErrors,
   clearErrors,
   setLoading,
 } = productSlice.actions;
+
+// --------------------------------------------------------
 
 export const getProducts = () => async (dispatch) => {
   try {
@@ -68,6 +79,30 @@ export const getProducts = () => async (dispatch) => {
   }
 };
 
+// --------------------------------------------------------
+
+export const getFeaturedProducts = () => async (dispatch) => {
+  try {
+    dispatch(setLoading(true));
+    const response = await axiosInstance({
+      url: '/api/products/featured',
+      method: 'GET',
+    });
+
+    dispatch(setFeaturedProducts(response.data.featuredProducts));
+    dispatch(setLoading(false));
+    return true;
+  } catch (err) {
+    console.log(`Error while getting featured products: ${err}`);
+    const errs = catchErrors(err);
+    dispatch(setErrors(errs));
+    dispatch(setLoading(false));
+    return false;
+  }
+};
+
+// --------------------------------------------------------
+
 export const getProduct = (id) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
@@ -87,6 +122,8 @@ export const getProduct = (id) => async (dispatch) => {
     return false;
   }
 };
+
+// --------------------------------------------------------
 
 export const getUploadURL =
   ({ filename, fileType }) =>
@@ -108,6 +145,8 @@ export const getUploadURL =
       return false;
     }
   };
+
+// --------------------------------------------------------
 
 export const createProduct =
   ({ name, price, description, isActive, isFeatured, image, category_id }) =>
@@ -183,6 +222,8 @@ export const updateProduct =
       return false;
     }
   };
+
+// --------------------------------------------------------
 
 export const deleteProduct = (id) => async (dispatch) => {
   try {

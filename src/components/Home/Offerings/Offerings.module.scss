@@ -1,0 +1,65 @@
+@import '../../../styles/_variables';
+
+.card {
+  position: relative;
+
+  flex: 1;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 4rem 2rem 0 2rem;
+  text-align: center;
+  height: 100%;
+
+  &__title {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+  }
+
+  &__description {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  &__svg {
+    width: 100%;
+    height: 100%;
+    max-width: 100px;
+    max-height: 100px;
+    transform: translateX(1.2rem);
+  }
+}
+
+.row {
+  height: 40rem;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.colors {
+  width: 100%;
+  height: 2rem;
+  display: flex;
+  flex-wrap: nowrap;
+
+  &__each {
+    width: 33.3%;
+  }
+}
+
+.content {
+  position: relative;
+  background-color: $color-grey-light-2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
