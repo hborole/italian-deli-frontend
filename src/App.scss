@@ -16,6 +16,7 @@ $theme-colors: (
   'error': $color-error,
   'danger': $color-error,
   'success': $color-success,
+  'blue': $color-blue,
 );
 
 @import 'node_modules/bootstrap/scss/bootstrap';
@@ -23,6 +24,10 @@ $theme-colors: (
 h1 {
   font-family: 'GFS Didot', serif;
   font-family: 'Great Vibes', cursive;
+  margin-bottom: 0;
+}
+
+h2 {
   margin-bottom: 0;
 }
 

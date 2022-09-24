@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { signUp, clearErrors, setLoading } from '../store/auth';
+import errors from '../services/errors';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import Spinner from 'react-bootstrap/Spinner';
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -13,9 +17,29 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearErrors());
+      dispatch(setLoading(false));
+    };
+  }, [dispatch]);
+
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    const response = await dispatch(
+      signUp({ firstName, lastName, email, password })
+    );
+    if (response) {
+      navigate('/');
+    }
   };
+
+  const { errors: authErrors, isLoading: authLoading } = useSelector(
+    (state) => state.auth
+  );
 
   return (
     <>
@@ -62,7 +86,12 @@ export default function SignUp() {
           </Col>
         </Row>
 
-        <button className="btn btn-success">Sign Up</button>
+        <Row className="mb-3">
+          <Col>{errors(authErrors)}</Col>
+        </Row>
+
+        {!authLoading && <button className="btn btn-success">Sign Up</button>}
+        {authLoading && <Spinner animation="border" variant="success" />}
       </Form>
 
       <div className="container mt-5">
