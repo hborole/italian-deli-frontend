@@ -1,0 +1,11 @@
+@import '../../../styles/variables';
+
+.opening {
+  background-color: $color-grey-dark-3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem 0;
+  color: $color-white;
+}
