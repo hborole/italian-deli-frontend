@@ -7,6 +7,8 @@ import './App.scss';
 
 import Layout from './pages/Layout';
 import Home from './pages/Home';
+import Shop from './pages/Shop';
+import Checkout from './pages/Checkout';
 import NoPage from './pages/NoPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -33,6 +35,8 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signout" element={<Signout />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/checkout" element={<Checkout />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

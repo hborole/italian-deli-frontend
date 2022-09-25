@@ -180,6 +180,8 @@ export const createProduct =
     }
   };
 
+// --------------------------------------------------------
+
 export const updateProduct =
   ({
     id,
@@ -245,5 +247,7 @@ export const deleteProduct = (id) => async (dispatch) => {
     return false;
   }
 };
+
+// --------------------------------------------------------
 
 export default productSlice.reducer;

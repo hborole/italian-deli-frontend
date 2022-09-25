@@ -17,6 +17,8 @@ $theme-colors: (
   'danger': $color-error,
   'success': $color-success,
   'blue': $color-blue,
+  'white': $color-white,
+  'black': $color-black,
 );
 
 @import 'node_modules/bootstrap/scss/bootstrap';
