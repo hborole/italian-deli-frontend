@@ -7,6 +7,7 @@ import { Container, Spinner } from 'react-bootstrap';
 import classes from './Products.module.scss';
 import catchErrors from '../../services/catchErrors';
 import { MdOutlineAdd, MdOutlineRemove } from 'react-icons/md';
+import { BsFillBookmarkCheckFill } from 'react-icons/bs';
 
 export default function Products() {
   const dispatch = useDispatch();
@@ -102,6 +103,9 @@ export default function Products() {
                 className="card m-2 d-flex align-items-center justify-content-center position-relative"
                 key={product.id}
               >
+                {product.isFeatured && (
+                  <BsFillBookmarkCheckFill className={classes.products__icon} />
+                )}
                 <img
                   className={classes.products__image}
                   src={product.imageUrl}
