@@ -8,16 +8,19 @@ export default function Cart() {
   const cart = useSelector((state) => state.cart);
 
   return (
-    <div className={classes.cart}>
-      <h4 className={classes.amount}>
-        Total Amount:&nbsp;&nbsp;£&nbsp;{cart.total}
-      </h4>
-      <button
-        className="btn btn-lg btn-outline-white"
-        onClick={() => navigate('/checkout')}
-      >
-        Checkout &rarr;
-      </button>
-    </div>
+    cart.total > 0 && (
+      <div className={classes.cart}>
+        <h4 className={classes.amount}>
+          {cart.cart.length} Items&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;£&nbsp;
+          {cart.total}
+        </h4>
+        <button
+          className="btn btn-lg text-white"
+          onClick={() => navigate('/checkout')}
+        >
+          View Cart &rarr;
+        </button>
+      </div>
+    )
   );
 }

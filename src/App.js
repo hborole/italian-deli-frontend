@@ -15,18 +15,6 @@ import Signup from './pages/Signup';
 import Signout from './pages/Signout';
 
 export default function App() {
-  const auth = useSelector((state) => state.auth);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const isAuthenticated = async () => {
-      await dispatch(getCurrentUser());
-    };
-
-    isAuthenticated();
-  }, [dispatch]);
-
   return (
     <BrowserRouter>
       <Routes>

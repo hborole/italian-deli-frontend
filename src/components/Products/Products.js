@@ -12,16 +12,19 @@ export default function Products() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const auth = useSelector((state) => state.auth);
+
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(getProducts());
-      await dispatch(getCartItems());
+
+      if (auth.currentUser) {
+        await dispatch(getCartItems());
+      }
     };
 
     fetchData();
-  }, [dispatch]);
-
-  const auth = useSelector((state) => state.auth);
+  }, [dispatch, auth.currentUser]);
 
   const {
     products,

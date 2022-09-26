@@ -1,0 +1,56 @@
+@import '../../styles/variables';
+
+.purchase {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  margin: 8rem;
+  padding: 2rem 4rem;
+  border: 1px solid $color-grey-light-3;
+  border-radius: 0.5rem;
+
+  &__total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid $color-grey-light-3;
+  border-radius: 0.5rem;
+  width: 100%;
+
+  &__name {
+    font-size: 1.25rem;
+    margin-left: 1rem;
+  }
+
+  &__image {
+    height: 5rem;
+    width: 5rem;
+    margin-right: 2rem;
+    object-fit: cover;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba($color-black, 0.15);
+  }
+
+  &__price {
+    font-weight: 600;
+  }
+
+  &__quantity {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-left: 1rem;
+    letter-spacing: 0.25rem;
+  }
+}
