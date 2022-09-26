@@ -72,10 +72,7 @@ export default function Purchase() {
           {total}
         </h4>
 
-        <button
-          className="btn btn-success"
-          onClick={() => navigate('/checkout')}
-        >
+        <button className="btn btn-success" onClick={() => navigate('/pay')}>
           Proceed to Pay &rarr;
         </button>
       </div>

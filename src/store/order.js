@@ -3,21 +3,27 @@ import axiosInstance from '../services/axiosInstance';
 import catchErrors from '../services/catchErrors';
 
 const initialState = {
-  cart: [],
-  total: 0,
+  orders: [],
+  order: null,
   isLoading: false,
   errors: [],
 };
 
-export const cartSlice = createSlice({
-  name: 'cart',
+export const orderSlice = createSlice({
+  name: 'order',
   initialState,
   reducers: {
-    setCart: (state, action) => {
-      state.cart = action.payload;
+    setOrders: (state, action) => {
+      state.orders = action.payload;
     },
-    setTotal: (state, action) => {
-      state.total = action.payload;
+    clearOrders: (state) => {
+      state.orders = [];
+    },
+    setOrder: (state, action) => {
+      state.order = action.payload;
+    },
+    clearOrder: (state) => {
+      state.order = null;
     },
     setErrors: (state, action) => {
       state.errors = action.payload;
@@ -32,25 +38,29 @@ export const cartSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setCart, setTotal, setErrors, clearErrors, setLoading } =
-  cartSlice.actions;
+export const {
+  setOrders,
+  clearOrders,
+  setOrder,
+  clearOrder,
+  setErrors,
+  clearErrors,
+  setLoading,
+} = orderSlice.actions;
 
-// --------------------------------------------------------
-
-export const getCartItems = () => async (dispatch) => {
+export const getOrders = () => async (dispatch) => {
   try {
     dispatch(setLoading(true));
     const response = await axiosInstance({
-      url: '/api/cart',
+      url: '/api/orders',
       method: 'GET',
     });
 
-    dispatch(setCart(response.data.cart));
-    dispatch(setTotal(response.data.total));
+    dispatch(setOrders(response.data.orders));
     dispatch(setLoading(false));
     return true;
   } catch (err) {
-    console.log(`Error while getting cart: ${err}`);
+    console.log(`Error while getting orders: ${err}`);
     const errs = catchErrors(err);
     dispatch(setErrors(errs));
     dispatch(setLoading(false));
@@ -58,22 +68,39 @@ export const getCartItems = () => async (dispatch) => {
   }
 };
 
-// --------------------------------------------------------
+export const getOrder = (id) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true));
+    const response = await axiosInstance({
+      url: `/api/orders/${id}`,
+      method: 'GET',
+    });
 
-export const addToCart = (id) => async (dispatch) => {
+    dispatch(setOrder(response.data.order));
+    dispatch(setLoading(false));
+    return true;
+  } catch (err) {
+    console.log(`Error while getting order: ${err}`);
+    const errs = catchErrors(err);
+    dispatch(setErrors(errs));
+    dispatch(setLoading(false));
+    return false;
+  }
+};
+
+export const createOrder = (token) => async (dispatch) => {
   try {
     dispatch(setLoading(true));
     await axiosInstance({
-      url: '/api/cart/add-item',
+      url: '/api/orders',
       method: 'POST',
-      body: { product_id: id },
+      body: { token },
     });
 
-    await dispatch(getCartItems());
     dispatch(setLoading(false));
     return true;
   } catch (err) {
-    console.log(`Error while adding to cart: ${err}`);
+    console.log(`Error while creating order: ${err}`);
     const errs = catchErrors(err);
     dispatch(setErrors(errs));
     dispatch(setLoading(false));
@@ -81,29 +108,4 @@ export const addToCart = (id) => async (dispatch) => {
   }
 };
 
-// --------------------------------------------------------
-
-export const removeFromCart = (id) => async (dispatch) => {
-  try {
-    dispatch(setLoading(true));
-    await axiosInstance({
-      url: '/api/cart/remove-item',
-      method: 'POST',
-      body: { product_id: id },
-    });
-
-    await dispatch(getCartItems());
-    dispatch(setLoading(false));
-    return true;
-  } catch (err) {
-    console.log(`Error while removing from cart: ${err}`);
-    const errs = catchErrors(err);
-    dispatch(setErrors(errs));
-    dispatch(setLoading(false));
-    return false;
-  }
-};
-
-// --------------------------------------------------------
-
-export default cartSlice.reducer;
+export default orderSlice.reducer;
