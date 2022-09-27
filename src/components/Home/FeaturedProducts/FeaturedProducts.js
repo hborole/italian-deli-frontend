@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearProducts, getFeaturedProducts } from '../../../store/product';
 import { Container, Spinner } from 'react-bootstrap';
@@ -8,6 +9,7 @@ import { BsFillBookmarkCheckFill } from 'react-icons/bs';
 
 export default function FeaturedProducts() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -49,7 +51,7 @@ export default function FeaturedProducts() {
                   src={product.imageUrl}
                   alt={product.name}
                 />
-                <div className="card-body">
+                <div className="d-flex flex-column align-items-center justify-content-between py-4 px-2">
                   <h4 className={classes.card__name}>{product.name}</h4>
                   <p className={classes.card__category}>{product.category}</p>
                   <p className={classes.card__description}>
@@ -58,12 +60,17 @@ export default function FeaturedProducts() {
                   <h4 className={classes.card__price}>
                     £&nbsp;{product.price}
                   </h4>
-                  <button className="btn btn-outline-success mb-2">
-                    Add to Cart
-                  </button>
                 </div>
               </div>
             ))}
+          </div>
+          <div className="d-flex align-items-center justify-content-center mb-5">
+            <button
+              className="btn btn-success mb-4"
+              onClick={() => navigate('/shop')}
+            >
+              Visit Shop &rarr;
+            </button>
           </div>
         </Container>
       )}
