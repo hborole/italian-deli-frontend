@@ -58,7 +58,10 @@ export default function Products() {
   };
 
   function getQuantity(product) {
-    return (
+    console.log(JSON.stringify(product, null, 2));
+    return product.isActive === 0 ? (
+      <div className="text-danger">Out of stock!</div>
+    ) : (
       <div className="d-flex align-items-center justify-content-center">
         <MdOutlineRemove
           color="red"
