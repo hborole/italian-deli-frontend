@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCartItems } from '../../store/cart';
+import { addToCart, getCartItems, removeFromCart } from '../../store/cart';
+import { MdOutlineAdd, MdOutlineRemove } from 'react-icons/md';
 
 import classes from './Purchase.module.scss';
 import { Spinner } from 'react-bootstrap';
@@ -44,6 +45,48 @@ export default function Purchase() {
             £&nbsp;{item.price * item.quantity}
           </div>
         </div>
+
+        {getQuantity(item)}
+      </div>
+    );
+  }
+
+  const handleAddToCart = async (item) => {
+    if (!auth.currentUser) {
+      navigate('/login');
+      return;
+    }
+
+    await dispatch(addToCart(item.product_id));
+  };
+
+  const handleRemoveFromCart = async (item) => {
+    if (!auth.currentUser) {
+      navigate('/login');
+      return;
+    }
+
+    await dispatch(removeFromCart(item.product_id));
+  };
+
+  function getQuantity(item) {
+    return item.isActive === 0 ? (
+      <div className="text-danger">Out of stock!</div>
+    ) : (
+      <div className="d-flex align-items-center justify-content-center">
+        <MdOutlineRemove
+          color="red"
+          size="1.5em"
+          style={{ marginRight: `1rem` }}
+          onClick={() => handleRemoveFromCart(item)}
+        />
+        <div className={`${classes.quantity}`}>{item.quantity}</div>
+        <MdOutlineAdd
+          color="blue"
+          size="1.5em"
+          style={{ marginLeft: `1rem` }}
+          onClick={() => handleAddToCart(item)}
+        />
       </div>
     );
   }
