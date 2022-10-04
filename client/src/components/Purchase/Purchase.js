@@ -1,15 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart, getCartItems, removeFromCart } from '../../store/cart';
 import { MdOutlineAdd, MdOutlineRemove } from 'react-icons/md';
+import StripeCheckout from 'react-stripe-checkout';
 
 import classes from './Purchase.module.scss';
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Form } from 'react-bootstrap';
+import { createOrder } from '../../store/order';
 
 export default function Purchase() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [note, setNote] = useState('');
 
   const auth = useSelector((state) => state.auth);
   const { cart, isLoading, total } = useSelector((state) => state.cart);
@@ -91,6 +95,14 @@ export default function Purchase() {
     );
   }
 
+  const handlePayment = async (token) => {
+    const response = await dispatch(createOrder({ token, note }));
+
+    if (response) {
+      navigate('/thankyou');
+    }
+  };
+
   return isLoading ? (
     <>
       <Spinner variant="primary" />
@@ -109,15 +121,28 @@ export default function Purchase() {
 
       {cart.map((item) => cartItems(item))}
 
-      <div className={classes.purchase__total}>
+      <Form.Control
+        as="textarea"
+        aria-label="With textarea"
+        placeholder="Delivery notes"
+        className="mb-3"
+        value={note}
+        onChange={(e) => setNote(e.target.value)}
+      />
+
+      <div className={`mt-4 ${classes.purchase__total}`}>
         <h4 className={classes.item__price}>
           {cart.length} Items&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;£&nbsp;
           {total}
         </h4>
 
-        <button className="btn btn-success" onClick={() => navigate('/pay')}>
-          Proceed to Pay &rarr;
-        </button>
+        <StripeCheckout
+          token={(token) => handlePayment(token)}
+          stripeKey={process.env.REACT_APP_STRIPE_KEY}
+          amount={total * 100}
+          currency="GBP"
+          email={auth.currentUser?.email}
+        />
       </div>
     </div>
   );

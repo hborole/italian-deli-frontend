@@ -88,24 +88,26 @@ export const getOrder = (id) => async (dispatch) => {
   }
 };
 
-export const createOrder = (token) => async (dispatch) => {
-  try {
-    dispatch(setLoading(true));
-    await axiosInstance({
-      url: '/api/orders',
-      method: 'POST',
-      body: { token },
-    });
+export const createOrder =
+  ({ token, note }) =>
+  async (dispatch) => {
+    try {
+      dispatch(setLoading(true));
+      await axiosInstance({
+        url: '/api/orders',
+        method: 'POST',
+        body: { token, note },
+      });
 
-    dispatch(setLoading(false));
-    return true;
-  } catch (err) {
-    console.log(`Error while creating order: ${err}`);
-    const errs = catchErrors(err);
-    dispatch(setErrors(errs));
-    dispatch(setLoading(false));
-    return false;
-  }
-};
+      dispatch(setLoading(false));
+      return true;
+    } catch (err) {
+      console.log(`Error while creating order: ${err}`);
+      const errs = catchErrors(err);
+      dispatch(setErrors(errs));
+      dispatch(setLoading(false));
+      return false;
+    }
+  };
 
 export default orderSlice.reducer;

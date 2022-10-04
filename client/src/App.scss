@@ -53,3 +53,13 @@ h2 {
 .card {
   text-align: center;
 }
+
+.StripeCheckout {
+  background: $color-success !important;
+  color: $color-white !important;
+
+  & > span {
+    color: $color-white !important;
+    background: transparent !important;
+  }
+}
