@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getProducts } from '../../store/product';
+import { getProducts, filterProducts } from '../../store/product';
+import { getCategories } from '../../store/category';
 import { addToCart, getCartItems, removeFromCart } from '../../store/cart';
-import { Container, Spinner } from 'react-bootstrap';
+import { Container, Spinner, Form, Row, Col } from 'react-bootstrap';
 import classes from './Products.module.scss';
 import catchErrors from '../../services/catchErrors';
 import { MdOutlineAdd, MdOutlineRemove } from 'react-icons/md';
@@ -12,12 +13,14 @@ import { BsFillBookmarkCheckFill } from 'react-icons/bs';
 export default function Products() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [filterCategory, setFilterByCategory] = useState('all');
 
   const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(getProducts());
+      await dispatch(getCategories());
 
       if (auth.currentUser) {
         await dispatch(getCartItems());
@@ -28,10 +31,12 @@ export default function Products() {
   }, [dispatch, auth.currentUser]);
 
   const {
-    products,
+    filteredProducts,
     errors: productErrors,
     isLoading: productLoading,
   } = useSelector((state) => state.product);
+
+  const { categories } = useSelector((state) => state.category);
 
   const {
     cart,
@@ -57,8 +62,12 @@ export default function Products() {
     await dispatch(removeFromCart(product.id));
   };
 
+  const handleFilterByCategory = (e) => {
+    setFilterByCategory(e.target.value);
+    dispatch(filterProducts(e.target.value));
+  };
+
   function getQuantity(product) {
-    console.log(JSON.stringify(product, null, 2));
     return product.isActive === 0 ? (
       <div className="text-danger">Out of stock!</div>
     ) : (
@@ -100,8 +109,28 @@ export default function Products() {
 
       {!productLoading && productErrors.length === 0 && (
         <Container>
+          <Row>
+            <Col></Col>
+            <Col></Col>
+            <Col className="d-flex justify-content-center align-items-center">
+              <div className="w-100">Filter By Category: </div>
+              <Form.Select
+                aria-label="Filter by category"
+                value={filterCategory}
+                onChange={handleFilterByCategory}
+              >
+                <option value="all">All</option>
+                {categories.map((category) => (
+                  <option key={category.name} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
+              </Form.Select>
+            </Col>
+          </Row>
+
           <div className={`${classes.products}`}>
-            {products?.map((product) => (
+            {filteredProducts?.map((product) => (
               <div
                 className="card m-2 d-flex align-items-center justify-content-center position-relative"
                 key={product.id}

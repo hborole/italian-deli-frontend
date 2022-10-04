@@ -4,6 +4,7 @@ import catchErrors from '../services/catchErrors';
 
 const initialState = {
   products: [],
+  filteredProducts: [],
   featuredProducts: [],
   product: null,
   isLoading: false,
@@ -19,6 +20,21 @@ export const productSlice = createSlice({
     },
     clearProducts: (state) => {
       state.products = [];
+    },
+    setFilteredProducts: (state, action) => {
+      state.filteredProducts = action.payload;
+    },
+    clearFilteredProducts: (state) => {
+      state.filteredProducts = [];
+    },
+    filterProducts: (state, action) => {
+      if (action.payload === 'all') {
+        state.filteredProducts = state.products;
+      } else {
+        state.filteredProducts = state.products.filter(
+          (product) => product.category === action.payload
+        );
+      }
     },
     setFeaturedProducts: (state, action) => {
       state.featuredProducts = action.payload;
@@ -48,6 +64,9 @@ export const productSlice = createSlice({
 export const {
   setProducts,
   clearProducts,
+  setFilteredProducts,
+  clearFilteredProducts,
+  filterProducts,
   setFeaturedProducts,
   clearFeaturedProducts,
   setProduct,
@@ -68,6 +87,7 @@ export const getProducts = () => async (dispatch) => {
     });
 
     dispatch(setProducts(response.data.products));
+    dispatch(setFilteredProducts(response.data.products));
     dispatch(setLoading(false));
     return true;
   } catch (err) {
