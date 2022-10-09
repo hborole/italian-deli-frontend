@@ -29,7 +29,7 @@ export default function Header() {
       >
         <Container>
           <Navbar.Brand href="/">
-            <h1 className="navbar-header">Maggiano's</h1>
+            <h1 className="navbar-header">Primo's</h1>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">

@@ -15,10 +15,10 @@ export default function Banner() {
           </Col>
           <Col className="p-0">
             <div className={classes.banner__content}>
-              <h1 className={classes.banner__title}>Welcome to Maggiano's!</h1>
+              <h1 className={classes.banner__title}>Welcome to Primo's!</h1>
               <br />
               <p className={classes.banner__info}>
-                At Maggiano's, the real Italian experience is what matters the
+                At Primo's, the real Italian experience is what matters the
                 most. Come to enjoy authentic Italian food and have a look at
                 our Italian products!
               </p>

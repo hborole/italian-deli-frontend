@@ -19,6 +19,7 @@ $theme-colors: (
   'blue': $color-blue,
   'white': $color-white,
   'black': $color-black,
+  'dark': $color-black,
 );
 
 @import 'node_modules/bootstrap/scss/bootstrap';
