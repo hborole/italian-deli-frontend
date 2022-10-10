@@ -1,13 +1,23 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { AiOutlineInstagram } from 'react-icons/ai';
 
 export default function Footer() {
   return (
     <>
       <Navbar bg="light" variant="light" className="pt-5 pb-5">
         <Container>
-          <img src="/assets/logo.jpeg" height="200" alt="Primos logo" />
+          <>
+            <img src="/assets/logo.jpeg" height="200" alt="Primos logo" />
+            {/* Add a instagram icon */}
+            <Nav className="ms-auto">
+              <Nav.Link href="https://instagram.com/primo_primrose?igshid=YmMyMTA2M2Y=">
+                <AiOutlineInstagram size="2em" />
+              </Nav.Link>
+            </Nav>
+          </>
+
           <Navbar.Brand href="/"></Navbar.Brand>
 
           <Nav className="me-auto"></Nav>
@@ -18,9 +28,9 @@ export default function Footer() {
               width="400"
               height="300"
               style={{ border: 0 }}
-              allowfullscreen=""
+              allowFullScreen=""
               loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
+              referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
           </Nav>
         </Container>
