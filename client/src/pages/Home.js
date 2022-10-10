@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from '../components/Footer';
 import Banner from '../components/Home/Banner/Banner';
 import FeaturedProducts from '../components/Home/FeaturedProducts/FeaturedProducts';
 import Offerings from '../components/Home/Offerings/Offerings';
@@ -11,6 +12,7 @@ export default function Home() {
       <Offerings />
       <FeaturedProducts />
       <OpeningHours />
+      <Footer />
     </>
   );
 }
